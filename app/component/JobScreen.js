@@ -24,6 +24,7 @@ function TopNavigation() {
           color: "#fafafa",
           fontSize: 18,
           fontWeight: "400",
+          marginTop: 3,
         }}
       >
         Nearby Jobs{" "}
@@ -33,7 +34,7 @@ function TopNavigation() {
           color: "grey",
           marginTop: 4,
           fontWeight: "500",
-          marginTop: 3,
+          marginTop: 7,
         }}
       >
         {" "}
@@ -59,7 +60,7 @@ function SecondNavigation() {
       {isLoading ? (
         <ActivityIndicator size={40} color={"white"} />
       ) : error ? (
-        alert(error.message)
+        alert("please check your network connection", error.message)
       ) : (
         <FlatList
           keyExtractor={(item) => item.id}

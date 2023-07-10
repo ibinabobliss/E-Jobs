@@ -34,7 +34,8 @@ const ForthView = () => {
           style={{
             color: "#fafafa",
             fontSize: 18,
-            fontWeight: "600",
+            fontWeight: "400",
+            marginTop: 3,
           }}
         >
           Popular Jobs{" "}
@@ -44,7 +45,7 @@ const ForthView = () => {
             color: "grey",
             marginTop: 4,
             fontWeight: "500",
-            marginTop: 3,
+            marginTop: 7,
           }}
         >
           {" "}
@@ -60,7 +61,7 @@ const ForthView = () => {
         {isLoading ? (
           <ActivityIndicator size={40} color={"white"} />
         ) : error ? (
-          alert(error.message)
+          alert("please check your network connections", error.message)
         ) : (
           <FlatList
             keyExtractor={(item) => item.id}

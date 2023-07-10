@@ -26,26 +26,39 @@ const TopNavigation = () => {
         borderBottomLeftRadius: 20,
       }}
     >
-      <Text
-        style={{
-          color: "#212121",
-          fontSize: 23,
-          marginTop: 3,
-          fontWeight: "600",
-          // fontStyle: "italic",
-          textTransform: "capitalize",
-        }}
-      >
-        Bobmanuel ibinabo
-      </Text>
-      <Image
-        source={require("../assets/picture.png")}
-        style={{
-          width: 40,
-          height: 40,
-          borderRadius: 25,
-        }}
-      />
+      <View>
+        <Text
+          style={{
+            color: "#212121",
+            fontSize: 23,
+            marginTop: 3,
+            fontWeight: "600",
+            // fontStyle: "italic",
+            textTransform: "capitalize",
+          }}
+        >
+          Bobmanuel ibinabo
+        </Text>
+        <Text
+          style={{
+            color: "grey",
+            textTransform: "capitalize",
+            fontWeight: "400",
+          }}
+        >
+          Manager E-dice limited{" "}
+        </Text>
+      </View>
+      <View>
+        <Image
+          source={require("../assets/profilepicture.jpg")}
+          style={{
+            width: 60,
+            height: 60,
+            borderRadius: 30,
+          }}
+        />
+      </View>
     </View>
   );
 };
@@ -66,6 +79,9 @@ const SecondView = () => {
     >
       <TextInput
         focusable
+        autoCapitalize="true"
+        editable
+        cursorColor={"grey"}
         placeholder="What are you looking for "
         style={{
           color: "#fafafa",
@@ -75,7 +91,7 @@ const SecondView = () => {
           borderRadius: 20,
           fontSize: 12,
           borderColor: "#212121",
-          fontWeight: "300",
+          fontWeight: "200",
         }}
         value={search}
         onChangeText={(text) => setSearch(text)}
@@ -87,7 +103,7 @@ const SecondView = () => {
             textTransform: "capitalize",
             color: "lightblue",
             fontSize: 30,
-            fontWeight: "750",
+            fontWeight: "500",
           }}
         >
           Find your dream job on E-Dice

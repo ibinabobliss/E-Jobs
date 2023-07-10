@@ -10,37 +10,38 @@ import {
   ScrollView,
   useWindowDimensions,
 } from "react-native";
-import PhoneItems from "../component/PhonesItems";
+import JobItems from "../component/JobItems";
+import JobScreen from "../component/JobScreen";
 
 const TopNavigation = () => {
   return (
     <View
       style={{
-        backgroundColor: "#212121",
-        padding: 10,
-        borderRadius: 10,
         flexDirection: "row",
         justifyContent: "space-between",
+        backgroundColor: "#fafafa",
+        padding: 10,
+        borderRadius: 10,
+        fontWeight: "300",
+        borderBottomLeftRadius: 20,
       }}
     >
       <Text
         style={{
-          color: "#fafafa",
+          color: "#212121",
           fontSize: 23,
           marginTop: 3,
-          fontWeight: "400",
+          fontWeight: "600",
           // fontStyle: "italic",
+          textTransform: "capitalize",
         }}
       >
         Bobmanuel ibinabo
       </Text>
-
       <Image
-        source={require("../assets/walpaper1.png")}
+        source={require("../assets/picture.png")}
         style={{
           width: 40,
-          backgroundColor: "fafafa",
-          padding: 3,
           height: 40,
           borderRadius: 25,
         }}
@@ -55,8 +56,8 @@ const SecondView = () => {
   return (
     <View
       style={{
-        marginVertical: 10,
-        backgroundColor: "grey",
+        marginVertical: 15,
+        backgroundColor: "white",
         padding: 16,
         borderTopRightRadius: 20,
         borderBottomLeftRadius: 20,
@@ -85,11 +86,11 @@ const SecondView = () => {
             marginTop: 10,
             textTransform: "capitalize",
             color: "lightblue",
-            fontSize: 33,
+            fontSize: 30,
             fontWeight: "750",
           }}
         >
-          Best Smart Phones and gadget
+          Find your dream job on E-Dice
         </Text>
       </View>
     </View>
@@ -101,7 +102,8 @@ export default function HomeScreen() {
     <View>
       <TopNavigation />
       <SecondView />
-      <PhoneItems />
+      <JobItems />
+      <JobScreen />
     </View>
   );
 }

@@ -1,142 +1,156 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  Image,
   TouchableOpacity,
   FlatList,
+  Image,
+  ScrollView,
   ActivityIndicator,
 } from "react-native";
 import FetchData from "../api/Axios";
-import { useRouter, Stack } from "expo-router";
+import { stack, useRouter } from "expo-router";
 
-function TopNavigation() {
+function TopNav() {
   return (
     <View
       style={{
-        justifyContent: "space-between",
         flexDirection: "row",
-        marginTop: 10,
+        justifyContent: "space-between",
+        marginVertical: 16,
       }}
     >
       <Text
         style={{
-          color: "#fafafa",
-          fontSize: 18,
-          fontWeight: "400",
-          marginTop: 3,
+          color: "#f9fbe7",
+          fontSize: 21,
+          textTransform: "capitalize",
         }}
       >
-        Nearby Jobs{" "}
+        Trending jobs
       </Text>
       <Text
         style={{
-          color: "grey",
-          marginTop: 4,
-          fontWeight: "500",
-          marginTop: 7,
+          fontSize: 18,
+          marginVertical: 5,
+          color: "#bcaaa4",
         }}
       >
-        {" "}
         View all
       </Text>
     </View>
   );
 }
 
-function SecondNavigation() {
-  const { data, isLoading, error } = FetchData({
-    query: "developer jobs ",
-    num_pages: "1",
-  });
-  const router = useRouter();
-
+function SecondNav() {
   return (
-    <View
-      style={{
-        marginTop: 20,
-      }}
-    >
-      {isLoading ? (
-        <ActivityIndicator size={40} color={"white"} />
-      ) : error ? (
-        alert("please check your network connection", error.message)
-      ) : (
-        <FlatList
-          keyExtractor={(item) => item.id}
-          data={data}
-          renderItem={({ item }) => {
-            return (
-              <View
-                style={{
-                  marginVertical: 8,
-                  backgroundColor: "white",
-                  padding: 10,
-                  borderRadius: 15,
-                  flexDirection: "row",
-                  alignItems: "center",
-                }}
-              >
-                <View>
-                  <Image
-                    resizeMode="contain"
-                    source={{ uri: item?.employer_logo }}
-                    style={{
-                      width: 60,
-                      height: 60,
-                      // borderRadius: 30,
-                    }}
-                  />
-                </View>
-                <TouchableOpacity
-                  onPress={() => router.push(`/JobPage/${item.item_id}`)}
-                  style={{
-                    marginHorizontal: 10,
-                  }}
-                >
-                  <View>
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        color: "black",
-                        fontSize: 20,
-                        fontWeight: "bold",
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {item.job_title}
-                    </Text>
-                  </View>
-                  <View>
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        color: "#212121",
-                        fontWeight: "500",
-                        marginTop: 5,
-                        textTransform: "capitalize",
-                      }}
-                    >
-                      {item.employer_name}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              </View>
-            );
-          }}
-        />
-      )}
+    <View>
+      <Text>seconds</Text>
     </View>
   );
 }
-
-const JobScreen = () => {
+export default function JobScreen() {
+  const { data, isLoading, error } = FetchData({
+    query: "develoer jobs ",
+    num_pages: 7,
+  });
+  const router = useRouter();
+  //console.log(data);
+  //const isLoading = false;
+  //const error = null;
+  //const data = ["fruits", "mangoes", "oranges", "oranges", "oranges"];
   return (
-    <View>
-      <TopNavigation />
-      <SecondNavigation />
+    <View
+      style={
+        {
+          //flex: 1,
+        }
+      }
+    >
+      <TopNav />
+      <View
+        style={{
+          marginTop: 9,
+        }}
+      >
+        {isLoading ? (
+          <ActivityIndicator size={50} color={"white"} />
+        ) : error ? (
+          alert("there is an error ", error.message)
+        ) : (
+          <ScrollView>
+            <FlatList
+              //horizontal
+              //showsHorizontalScrollIndicator={false}
+              data={data}
+              keyExtractor={(item) => item?.id}
+              renderItem={({ item }) => {
+                return (
+                  <View
+                    key={item?.job_id}
+                    style={{
+                      marginVertical: 5,
+                      backgroundColor: "white",
+                      // width: "100%",
+                      // height: 180,
+                      alignItems: "center",
+                      borderRadius: 20,
+                      padding: 15,
+                      flexDirection: "row",
+                    }}
+                  >
+                    <TouchableOpacity
+                      onPress={() => router.push(`/JobPage/ , ${item.job_id}`)}
+                      style={{
+                        marginVertical: 3,
+                      }}
+                    >
+                      <Image
+                        style={{
+                          width: 60,
+                          height: 60,
+                          borderRadius: 40,
+                          marginTop: 7,
+                        }}
+                        source={{ uri: item.employer_logo }}
+                      />
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                      onPress={() => router.push(`/JobPage/ , ${item.job_id}`)}
+                      style={{
+                        marginHorizontal: 17,
+                      }}
+                    >
+                      <Text
+                        numberOfLines={1}
+                        style={{
+                          marginVertical: 2,
+                          textTransform: "capitalize",
+                          color: "#212121",
+                          fontSize: 21,
+                          fontWeight: "700",
+                        }}
+                      >
+                        {item.employer_name}
+                      </Text>
+                      <Text
+                        numberOfLines={1}
+                        style={{
+                          color: "#212121",
+                          fontWeight: "400",
+                          marginTop: 4,
+                        }}
+                      >
+                        {item.job_employment_type}
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                );
+              }}
+            />
+          </ScrollView>
+        )}
+      </View>
     </View>
   );
-};
-
-export default JobScreen;
+}

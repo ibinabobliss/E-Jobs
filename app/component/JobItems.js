@@ -1,148 +1,151 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
-  useWindowDimensions,
-  Image,
   TouchableOpacity,
+  FlatList,
+  Image,
   ScrollView,
   ActivityIndicator,
-  FlatList,
 } from "react-native";
 import FetchData from "../api/Axios";
-import { useRouter } from "expo-router";
+import { stack, useRouter } from "expo-router";
 
-const ForthView = () => {
-  const { data, isLoading, error } = FetchData({
-    query: "developer jobs ",
-    num_pages: "1",
-  });
-  const router = useRouter();
+function TopNav() {
   return (
     <View
       style={{
+        flexDirection: "row",
+        justifyContent: "space-between",
         marginVertical: 10,
       }}
     >
-      <View
+      <Text
         style={{
-          justifyContent: "space-between",
-          flexDirection: "row",
+          color: "#f9fbe7",
+          fontSize: 21,
+          textTransform: "capitalize",
         }}
       >
-        <Text
-          style={{
-            color: "#fafafa",
-            fontSize: 18,
-            fontWeight: "400",
-            marginTop: 3,
-          }}
-        >
-          Popular Jobs{" "}
-        </Text>
-        <Text
-          style={{
-            color: "grey",
-            marginTop: 4,
-            fontWeight: "500",
-            marginTop: 7,
-          }}
-        >
-          {" "}
-          View all
-        </Text>
-      </View>
+        Popular jobs
+      </Text>
+      <Text
+        style={{
+          fontSize: 18,
+          marginVertical: 5,
+          color: "#bcaaa4",
+        }}
+      >
+        View all
+      </Text>
+    </View>
+  );
+}
 
+function SecondNav() {
+  return (
+    <View>
+      <Text>seconds</Text>
+    </View>
+  );
+}
+export default function JobPage() {
+  const { data, isLoading, error } = FetchData({
+    query: "Python developer ",
+    num_pages: 7,
+  });
+  const router = useRouter();
+  //console.log(data);
+  //const isLoading = false;
+  //const error = null;
+  //const data = ["fruits", "mangoes", "oranges", "oranges", "oranges"];
+  return (
+    <View
+      style={
+        {
+          //flex: 1,
+        }
+      }
+    >
+      <TopNav />
       <View
         style={{
-          marginTop: 20,
+          marginTop: 9,
         }}
       >
         {isLoading ? (
-          <ActivityIndicator size={40} color={"white"} />
+          <ActivityIndicator size={50} color={"white"} />
         ) : error ? (
-          alert("please check your network connections", error.message)
+          alert("there is an error ", error.message)
         ) : (
-          <FlatList
-            keyExtractor={(item) => item.id}
-            data={data}
-            horizontal
-            showsHorizontalScrollIndicator={false}
-            renderItem={({ item, index }) => {
-              return (
-                <View key={index}>
+          <ScrollView>
+            <FlatList
+              horizontal
+              showsHorizontalScrollIndicator={false}
+              data={data}
+              keyExtractor={(item) => item?.job_id}
+              renderItem={({ item }) => {
+                return (
                   <View
-                    key={item.job_id}
+                    key={item?.job_id}
                     style={{
                       marginHorizontal: 5,
                       backgroundColor: "white",
-                      padding: 10,
+                      width: 250,
+                      height: 200,
                       alignItems: "center",
-                      borderRadius: 10,
+                      borderRadius: 40,
+                      //padding: 10,
                     }}
                   >
                     <TouchableOpacity
-                      style={{}}
-                      onPress={() => router.push(`/JobPage/${item.item_id}`)}
+                      onPress={() => router.push(`/JobPage/ , ${item.job_id}`)}
+                      style={{
+                        marginVertical: 3,
+                      }}
                     >
                       <Image
-                        resizeMode="contain"
-                        source={{ uri: item?.employer_logo }}
                         style={{
-                          width: 70,
-                          height: 70,
-                          // borderRadius: 30,
+                          width: 100,
+                          resizeMode: "contain",
+                          height: 100,
+                          borderRadius: 40,
+                          marginTop: 7,
                         }}
+                        source={{ uri: item.employer_logo }}
                       />
                     </TouchableOpacity>
                     <TouchableOpacity
-                      onPress={() => router.push(`/JobPage/${item.item_id}`)}
-                      style={{
-                        marginTop: 20,
-                      }}
+                      onPress={() => router.push(`/JobPage/ , ${item.job_id}`)}
                     >
                       <Text
                         numberOfLines={1}
                         style={{
                           color: "#212121",
-                          fontWeight: "bold",
-                          fontSize: 21,
-                          textTransform: "capitalize",
+                          fontWeight: "700",
+                          fontSize: 22,
+                          marginVertical: 6,
                         }}
                       >
                         {item.employer_name}
                       </Text>
                     </TouchableOpacity>
-                    <View
-                      style={{
-                        marginTop: 8,
-                      }}
-                    >
+                    <View>
                       <Text
                         style={{
-                          fontWeight: "300",
-                          textTransform: "capitalize",
+                          color: "grey",
                         }}
                       >
                         {item.job_employment_type}
                       </Text>
                     </View>
                   </View>
-                </View>
-              );
-            }}
-          />
+                );
+              }}
+            />
+          </ScrollView>
         )}
       </View>
     </View>
   );
-};
-
-export default function JobItems() {
-  return (
-    <View>
-      <ForthView />
-    </View>
-  );
 }
-/////////////////////////////////

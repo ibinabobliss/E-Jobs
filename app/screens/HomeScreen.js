@@ -19,7 +19,7 @@ const TopNavigation = () => {
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "#fafafa",
+        backgroundColor: "#f5f5f5",
         padding: 10,
         borderRadius: 10,
         fontWeight: "300",
@@ -70,7 +70,7 @@ const SecondView = () => {
     <View
       style={{
         marginVertical: 15,
-        backgroundColor: "white",
+        backgroundColor: "#f5f5f5",
         padding: 16,
         borderTopRightRadius: 20,
         borderBottomLeftRadius: 20,
@@ -101,7 +101,7 @@ const SecondView = () => {
           style={{
             marginTop: 10,
             textTransform: "capitalize",
-            color: "lightblue",
+            color: "#b2dfdb",
             fontSize: 30,
             fontWeight: "500",
           }}

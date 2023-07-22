@@ -1,258 +1,234 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
-  ScrollView,
+  useWindowDimensions,
+  FlatList,
   Image,
+  ScrollView,
   ActivityIndicator,
   SafeAreaView,
-  useWindowDimensions,
 } from "react-native";
-import { Ionicons } from "@expo/vector-icons";
-import { useRouter, Stack, useSearchParams } from "expo-router";
 import FetchData from "../api/Axios";
-function TopView() {
+import {
+  Stack,
+  useSearchParams,
+  useRouter,
+  useLocalSearchParams,
+  router,
+} from "expo-router";
+import { Ionicons, AntDesign } from "@expo/vector-icons";
+
+function TopNav() {
   return (
     <View
       style={{
-        marginTop: 5,
         flexDirection: "row",
         justifyContent: "space-between",
-        marginHorizontal: 3,
+        //marginVertical: 10,
       }}
     >
+      <TouchableOpacity onPress={() => router.back("HomeScreen")}>
+        <Ionicons name="arrow-back-sharp" size={30} color={"#fafafa"} />
+      </TouchableOpacity>
       <View
         style={{
-          marginTop: 4,
+          alignItems: "center",
         }}
       >
-        <Ionicons name="arrow-back" size={30} color="#fafafa" />
-      </View>
-      <View>
         <Text
           style={{
             color: "#fafafa",
-            fontSize: 21,
+            fontSize: 24,
             fontWeight: "500",
           }}
         >
-          job Details
+          Job Details{" "}
         </Text>
       </View>
-      <TouchableOpacity
-        style={{
-          marginTop: 1,
-        }}
-      >
-        <Ionicons
-          name="notifications-circle-outline"
-          size={30}
-          color="#fafafa"
-        />
+      <TouchableOpacity>
+        <AntDesign name="sharealt" size={30} color="#fafafa" />
       </TouchableOpacity>
     </View>
   );
 }
+
+function SecondNav() {
+  return (
+    <View>
+      <Text>seconds</Text>
+    </View>
+  );
+}
 export default function JobPage() {
-  const router = useRouter();
   const params = useSearchParams();
   const { width } = useWindowDimensions();
-  // const error = null;
-  // const [isLoading, setIsLoading] = useState("false");
-  //const { data, isLoading, error } = FetchData({
-  //  job_id: params.id,
+  const router = useRouter();
+  // const { data, isLoading, error } = FetchData({
+  // query: "python developer  ",
+  //job_id: params.id,
   //});
-
-  const { data, isLoading, error } = FetchData({
-    query: "Python developer ",
-    job_id: params.id,
-  });
   console.log(data);
-  console.log(isLoading);
-  //console.log(error);
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   setTimeout(() => {
-  //     setIsLoading(false);
-  //   }, 5000);
-  // }, []);
-  //const isLoading = false;
+  const isLoading = false;
+  const error = null;
+  const data = ["fruits", "mangoes", "oranges", "oranges", "oranges"];
   return (
     <View
       style={{
         flex: 1,
         backgroundColor: "#212121",
         padding: 20,
-        //alignItems: "center",
       }}
     >
       <Stack.Screen />
-      <TopView />
-
-      <ScrollView>
+      <TopNav />
+      <View
+        style={{
+          marginTop: 9,
+        }}
+      >
         {isLoading ? (
-          <View
-            style={{
-              marginTop: 10,
-            }}
-          >
-            <ActivityIndicator size={30} color={"white"} />
-          </View>
+          <ActivityIndicator size={50} color={"white"} />
         ) : error ? (
-          alert(error.message)
+          alert("there is an error ", error.message)
+        ) : data.lenght === 0 ? (
+          alert("there is no data ")
         ) : (
-          <SafeAreaView>
-            <View
-              style={{
-                marginTop: 20,
-                backgroundColor: "#fafafa",
-                borderTopRightRadius: 30,
-                borderTopLeftRadius: 30,
-                borderBottomLeftRadius: 10,
-              }}
-            >
+          <ScrollView>
+            <View>
+              <View style={{ alignItems: "center", marginTop: 10 }}>
+                <Image
+                  // source={{ uri: data[0].employer_logo }}
+                  source={require("../assets/profilepicture.jpg")}
+                  sou
+                  style={{
+                    width: 260,
+                    height: 260,
+                    borderRadius: 130,
+                  }}
+                />
+              </View>
               <View
                 style={{
                   alignItems: "center",
+                  marginTop: 23,
                 }}
               >
-                <Image
+                <Text
                   style={{
-                    width: 200,
-                    height: 200,
-                    borderRadius: 100,
-                    marginTop: 6,
-                  }}
-                  //source={{ uri: data[0].employer_logo }}
-                  source={{ uri: data[0].employer_logo }}
-                />
-              </View>
-              <TouchableOpacity
-                style={{
-                  marginTop: 5,
-                }}
-              >
-                <View
-                  style={{
-                    alignItems: "center",
-                    padding: 10,
+                    color: "#fafafa",
+                    fontSize: 21,
+                    textTransform: "capitalize",
+                    fontWeight: "600",
                   }}
                 >
-                  <Text
-                    numberOfLines={1}
-                    style={{
-                      color: "#212121",
-                      fontWeight: "800",
-                      fontSize: 20,
-                      textTransform: "capitalize",
-                    }}
-                  >
-                    {data[0].employer_name}
-                    fucku
-                  </Text>
-                  <View
-                    style={{
-                      flexDirection: "row",
-                      marginHorizontal: 30,
-                      marginTop: 8,
-                    }}
-                  >
-                    <Text
-                      numberOfLines={1}
-                      style={{
-                        color: "#212121",
-                        fontWeight: "500",
-                        marginRight: 5,
-                        fontSize: 18,
-                      }}
-                    >
-                      {data[0].job_title} /
-                    </Text>
-                    <Text
-                      numberOfLines={1}
-                      style={{ color: "", marginTop: 4, fontWeight: "400" }}
-                    >
-                      {data[0].job_country}
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-              <View
-                style={{
-                  padding: 5,
-                }}
-              />
+                  Bobmanuel Ibinabo
+                  {data[0].employer_name}
+                </Text>
+              </View>
             </View>
-          </SafeAreaView>
-        )}
-      </ScrollView>
-
-      <ScrollView>
-        {isLoading ? (
-          <View
-            style={
-              {
-                //marginTop: 10,
-              }
-            }
-          >
-            <ActivityIndicator size={30} color={"white"} />
-          </View>
-        ) : error ? (
-          alert(error.message)
-        ) : (
-          <SafeAreaView>
             <View
               style={{
-                backgroundColor: "#fafafa",
-                width: width,
-                height: width,
-                marginTop: 3,
-                borderTopRightRadius: 10,
+                alignItems: "center",
+                flexDirection: "row",
+                justifyContent: "center",
+                marginTop: 7,
               }}
             >
               <View>
                 <Text
+                  numberOfLines={1}
                   style={{
-                    color: "#212121",
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    margin: 10,
+                    color: "tomato",
+                    fontSize: 20,
                   }}
                 >
-                  Description
+                  Frontend developer
+                  {data[0].job_title} /
                 </Text>
               </View>
               <View>
                 <Text
-                  numberOfLines={5}
+                  numberOfLines={11}
                   style={{
-                    color: "#212121",
+                    color: "tomato",
                     marginHorizontal: 10,
-                    fontWeight: "400",
+                    fontSize: 20,
                   }}
                 >
-                  {data[0].job_description}
-                </Text>
-              </View>
-              <View>
-                <Text
-                  style={{
-                    color: "#212121",
-                    fontSize: 18,
-                    fontWeight: "bold",
-                    margin: 10,
-                  }}
-                >
-                  Qualification
+                  United states
+                  {data[0].job_country}
                 </Text>
               </View>
             </View>
-          </SafeAreaView>
+
+            <SafeAreaView
+              style={{
+                width: "100%",
+                height: width,
+                backgroundColor: "#fafafa",
+                borderRadius: 20,
+                marginTop: 20,
+              }}
+            >
+              <View
+                style={{
+                  margin: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "gray",
+                    fontSize: 17,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Discription :{" "}
+                </Text>
+                <Text
+                  numberOfLines={7}
+                  style={{
+                    color: "grey",
+                    fontSize: 17,
+                    fontWeight: "400",
+                  }}
+                >
+                  widawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidas
+                  {data[0].job_description}
+                </Text>
+              </View>
+
+              <View
+                style={{
+                  margin: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: "gray",
+                    fontSize: 17,
+                    fontWeight: "bold",
+                  }}
+                >
+                  Qualifications :{" "}
+                </Text>
+                <Text
+                  numberOfLines={7}
+                  style={{
+                    color: "grey",
+                    fontSize: 17,
+                    fontWeight: "400",
+                  }}
+                >
+                  widawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidas
+                  {data[0].job_description}
+                </Text>
+              </View>
+            </SafeAreaView>
+          </ScrollView>
         )}
-      </ScrollView>
+      </View>
     </View>
   );
 }

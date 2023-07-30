@@ -62,7 +62,7 @@ function BottomNav() {
       ) : error ? (
         alert(error.message)
       ) : (
-        <KeyboardAvoidingView>
+        <SafeAreaView>
           <View
             style={{
               alignItems: "center",
@@ -243,7 +243,7 @@ function BottomNav() {
               </Text>
             </View>
           </SafeAreaView>
-        </KeyboardAvoidingView>
+        </SafeAreaView>
       )}
     </SafeAreaView>
   );

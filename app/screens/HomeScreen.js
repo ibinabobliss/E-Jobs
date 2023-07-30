@@ -1,16 +1,6 @@
 import React, { useState } from "react";
-import {
-  View,
-  Text,
-  ImageBackground,
-  Image,
-  TouchableOpacity,
-  Flatlist,
-  TextInput,
-  ScrollView,
-  useWindowDimensions,
-} from "react-native";
-import JobItems from "../component/JobItems";
+import { View, Text, Image, TouchableOpacity, TextInput } from "react-native";
+import JobItem from "../component/JobItems";
 import JobScreen from "../component/JobScreen";
 
 const TopNavigation = () => {
@@ -19,17 +9,17 @@ const TopNavigation = () => {
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#263238",
         padding: 10,
         borderRadius: 10,
         fontWeight: "300",
-        borderBottomLeftRadius: 20,
+        // borderBottomLeftRadius: 20,
       }}
     >
       <View>
         <Text
           style={{
-            color: "#212121",
+            color: "#f5f5f5",
             fontSize: 23,
             marginTop: 3,
             fontWeight: "600",
@@ -41,9 +31,10 @@ const TopNavigation = () => {
         </Text>
         <Text
           style={{
-            color: "grey",
+            color: "#e0e0e0",
             textTransform: "capitalize",
             fontWeight: "400",
+            marginTop: 6,
           }}
         >
           Manager E-dice limited{" "}
@@ -70,7 +61,7 @@ const SecondView = () => {
     <View
       style={{
         marginVertical: 15,
-        backgroundColor: "#f5f5f5",
+        backgroundColor: "#e0e0e0",
         padding: 16,
         borderTopRightRadius: 20,
         borderBottomLeftRadius: 20,
@@ -79,15 +70,16 @@ const SecondView = () => {
     >
       <TextInput
         focusable
-        autoCapitalize="true"
-        editable
-        cursorColor={"grey"}
+        //  autoCapitalize="true"
+        //editable
+        //cursorColor={"#fafafa"}
         placeholder="What are you looking for "
+        placeholderTextColor={"#eeeeee"}
         style={{
-          color: "#fafafa",
+          // color: "#fafafa",
           padding: 15,
           width: "100%",
-          backgroundColor: "#212121",
+          backgroundColor: "#263238",
           borderRadius: 20,
           fontSize: 12,
           borderColor: "#212121",
@@ -101,7 +93,7 @@ const SecondView = () => {
           style={{
             marginTop: 10,
             textTransform: "capitalize",
-            color: "#b2dfdb",
+            color: "#000",
             fontSize: 30,
             fontWeight: "500",
           }}
@@ -112,13 +104,12 @@ const SecondView = () => {
     </View>
   );
 };
-
 export default function HomeScreen() {
   return (
     <View>
       <TopNavigation />
       <SecondView />
-      <JobItems />
+      <JobItem />
       <JobScreen />
     </View>
   );

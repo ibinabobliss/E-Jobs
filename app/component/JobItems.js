@@ -9,7 +9,7 @@ import {
   ActivityIndicator,
 } from "react-native";
 import FetchData from "../api/Axios";
-import { stack, useRouter } from "expo-router";
+import { Stack, stack, useRouter } from "expo-router";
 
 function TopNav() {
   return (
@@ -22,18 +22,20 @@ function TopNav() {
     >
       <Text
         style={{
-          color: "#f9fbe7",
-          fontSize: 21,
+          //color: "#f9fbe7",
+          color: "#eceff1",
+          //  fontSize: 22,
           textTransform: "capitalize",
+          fontWeight: "bold",
         }}
       >
         Popular jobs
       </Text>
       <Text
         style={{
-          fontSize: 18,
-          marginVertical: 5,
-          color: "#bcaaa4",
+          // marginVertical: 4,
+          color: "#616161",
+          fontWeight: "bold",
         }}
       >
         View all
@@ -49,9 +51,9 @@ function SecondNav() {
     </View>
   );
 }
-export default function JobPage() {
+export default function JobItem() {
   const { data, isLoading, error } = FetchData({
-    query: "Python developer ",
+    query: "Python developer in Texas ",
     num_pages: 7,
   });
   const router = useRouter();
@@ -67,6 +69,7 @@ export default function JobPage() {
         }
       }
     >
+      <Stack.Screen />
       <TopNav />
       <View
         style={{
@@ -78,72 +81,71 @@ export default function JobPage() {
         ) : error ? (
           alert("there is an error ", error.message)
         ) : (
-          <ScrollView>
-            <FlatList
-              horizontal
-              showsHorizontalScrollIndicator={false}
-              data={data}
-              keyExtractor={(item) => item?.job_id}
-              renderItem={({ item }) => {
-                return (
-                  <View
-                    key={item?.job_id}
+          <FlatList
+            horizontal
+            showsHorizontalScrollIndicator={false}
+            data={data}
+            keyExtractor={(item) => item?.job_id}
+            renderItem={({ item }) => {
+              return (
+                <View
+                  key={item.job_id}
+                  style={{
+                    marginHorizontal: 9,
+                    color: "#004d40",
+                    backgroundColor: "#263238",
+                    width: 250,
+                    height: 200,
+                    alignItems: "center",
+                    borderRadius: 40,
+                    //padding: 10,
+                  }}
+                >
+                  <TouchableOpacity
+                    onPress={() => router.push(`/JobPage/ , ${item?.job_id}`)}
                     style={{
-                      marginHorizontal: 5,
-                      backgroundColor: "white",
-                      width: 250,
-                      height: 200,
-                      alignItems: "center",
-                      borderRadius: 40,
-                      //padding: 10,
+                      marginVertical: 3,
                     }}
                   >
-                    <TouchableOpacity
-                      onPress={() => router.push(`/JobPage/ , ${item.job_id}`)}
+                    <Image
                       style={{
-                        marginVertical: 3,
+                        width: 100,
+                        resizeMode: "contain",
+                        height: 100,
+                        borderRadius: 50,
+                        marginTop: 7,
+                      }}
+                      source={{ uri: item.employer_logo }}
+                    />
+                  </TouchableOpacity>
+                  <TouchableOpacity
+                    onPress={() => router.push(`/JobPage/ , ${item?.job_id}`)}
+                  >
+                    <Text
+                      numberOfLines={1}
+                      style={{
+                        color: "#eeeeee",
+                        fontWeight: "700",
+                        fontSize: 22,
+                        marginVertical: 6,
                       }}
                     >
-                      <Image
-                        style={{
-                          width: 100,
-                          resizeMode: "contain",
-                          height: 100,
-                          borderRadius: 40,
-                          marginTop: 7,
-                        }}
-                        source={{ uri: item.employer_logo }}
-                      />
-                    </TouchableOpacity>
-                    <TouchableOpacity
-                      onPress={() => router.push(`/JobPage/ , ${item.job_id}`)}
+                      {item.employer_name}
+                    </Text>
+                  </TouchableOpacity>
+                  <View>
+                    <Text
+                      style={{
+                        color: "#4db6ac",
+                      }}
                     >
-                      <Text
-                        numberOfLines={1}
-                        style={{
-                          color: "#212121",
-                          fontWeight: "700",
-                          fontSize: 22,
-                          marginVertical: 6,
-                        }}
-                      >
-                        {item.employer_name}
-                      </Text>
-                    </TouchableOpacity>
-                    <View>
-                      <Text
-                        style={{
-                          color: "grey",
-                        }}
-                      >
-                        {item.job_employment_type}
-                      </Text>
-                    </View>
+                      {item.job_employment_type}
+                    </Text>
                   </View>
-                );
-              }}
-            />
-          </ScrollView>
+                </View>
+              );
+            }}
+          />
         )}
       </View>
     </View>

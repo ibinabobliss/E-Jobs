@@ -1,234 +1,301 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
   TouchableOpacity,
-  useWindowDimensions,
-  FlatList,
+  SafeAreaView,
   Image,
   ScrollView,
   ActivityIndicator,
-  SafeAreaView,
+  KeyboardAvoidingView,
+  FlatList,
 } from "react-native";
+import { Stack, useSearchParams, useRouter } from "expo-router";
+import { AntDesign, Ionicons } from "@expo/vector-icons";
 import FetchData from "../api/Axios";
-import {
-  Stack,
-  useSearchParams,
-  useRouter,
-  useLocalSearchParams,
-  router,
-} from "expo-router";
-import { Ionicons, AntDesign } from "@expo/vector-icons";
+////////////////////////////////////////////////////////////////////////
 
 function TopNav() {
+  const router = useRouter();
   return (
     <View
       style={{
         flexDirection: "row",
         justifyContent: "space-between",
-        //marginVertical: 10,
+        padding: 20,
+        backgroundColor: "#eeeeee",
       }}
     >
       <TouchableOpacity onPress={() => router.back("HomeScreen")}>
-        <Ionicons name="arrow-back-sharp" size={30} color={"#fafafa"} />
+        <Ionicons name="arrow-back-sharp" size={30} color={"black"} />
       </TouchableOpacity>
-      <View
-        style={{
-          alignItems: "center",
-        }}
-      >
-        <Text
-          style={{
-            color: "#fafafa",
-            fontSize: 24,
-            fontWeight: "500",
-          }}
-        >
-          Job Details{" "}
-        </Text>
-      </View>
-      <TouchableOpacity>
-        <AntDesign name="sharealt" size={30} color="#fafafa" />
+      <TouchableOpacity style={{}}>
+        <AntDesign name="sharealt" size={30} color={"red"} />
       </TouchableOpacity>
     </View>
   );
 }
 
-function SecondNav() {
+function BottomNav() {
+  const params = useSearchParams();
+  //const [isLoading, setIsLoading] = useState(false);
+  //const error = null;
+  //useEffect(() => {
+  //  setIsLoading(true);
+  //  setTimeout(() => {
+  //    setIsLoading(false);
+  //  }, 5000);
+  //}, []);
+
+  const { isLoading, data, error } = FetchData({
+    job_id: params.id,
+    //query: "develoer jobs",
+  });
+
+  console.log(isLoading);
+  console.log(error);
+  console.log(data);
   return (
-    <View>
-      <Text>seconds</Text>
-    </View>
+    <SafeAreaView>
+      {isLoading ? (
+        <ActivityIndicator />
+      ) : error ? (
+        alert(error.message)
+      ) : (
+        <KeyboardAvoidingView>
+          <View
+            style={{
+              alignItems: "center",
+              marginTop: 5,
+            }}
+          >
+            <Image
+              //source={require("../assets/picture.png")}
+              source={{ uri: data[0].employer_logo }}
+              style={{
+                width: 200,
+                height: 200,
+                // resizeMode: "contain",
+                borderRadius: 100,
+              }}
+            />
+            <View
+              style={{
+                marginTop: 7,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#eeeeee",
+                  fontSize: 23,
+                  fontWeight: "600",
+                }}
+              >
+                {data[0].employer_name}{" "}
+              </Text>
+            </View>
+
+            <View
+              style={{
+                flexDirection: "row",
+                marginTop: 4,
+              }}
+            >
+              <Text
+                style={{
+                  color: "#ffa726",
+                  fontWeight: "500",
+                  fontSize: 18,
+                }}
+              >
+                {data[0].job_employment_type} /
+              </Text>
+              <Text
+                style={{
+                  color: "#ffa726",
+                  marginHorizontal: 8,
+                  fontWeight: "500",
+                  fontSize: 18,
+                }}
+              >
+                {data[0].job_country}
+              </Text>
+            </View>
+          </View>
+          <SafeAreaView
+            style={{
+              backgroundColor: "#eeeeee",
+              marginTop: 15,
+              borderRadius: 20,
+              // height: 200,
+              // alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                padding: 10,
+              }}
+            >
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "#212121",
+                  fontWeight: "bold",
+                  fontSize: 19,
+                }}
+              >
+                Qualifications
+              </Text>
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "grey",
+                  marginVertical: 8,
+                  fontWeight: "bold",
+                }}
+                numberOfLines={3}
+              >
+                {data[0].job_highlights.Qualifications}
+              </Text>
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "grey",
+                  marginTop: 8,
+                  fontWeight: "bold",
+                }}
+                numberOfLines={3}
+              >
+                {data[1].job_highlights.Qualifications}
+              </Text>
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "grey",
+                  marginTop: 8,
+                  fontWeight: "bold",
+                }}
+                numberOfLines={3}
+              >
+                {data[2].job_highlights.Qualifications}
+              </Text>
+            </View>
+          </SafeAreaView>
+
+          <SafeAreaView
+            style={{
+              backgroundColor: "#eeeeee",
+              marginTop: 15,
+              borderRadius: 20,
+
+              // height: 200,
+              // alignItems: "center",
+            }}
+          >
+            <View
+              style={{
+                padding: 10,
+              }}
+            >
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "#212121",
+                  fontWeight: "bold",
+                  fontSize: 19,
+                }}
+              >
+                Responsibilities
+              </Text>
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "grey",
+                  fontWeight: "bold",
+
+                  marginVertical: 8,
+                }}
+                numberOfLines={3}
+              >
+                {data[0].job_highlights.Responsibilities}
+              </Text>
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "grey",
+                  marginTop: 8,
+                  fontWeight: "bold",
+                }}
+                numberOfLines={3}
+              >
+                {data[1].job_highlights.Responsibilities}
+              </Text>
+              <Text
+                style={{
+                  // padding: 10,
+                  color: "grey",
+                  marginTop: 8,
+                  fontWeight: "bold",
+                }}
+                numberOfLines={3}
+              >
+                {data[2].job_highlights.Responsibilities}
+              </Text>
+            </View>
+          </SafeAreaView>
+        </KeyboardAvoidingView>
+      )}
+    </SafeAreaView>
+  );
+}
+
+function LastNav() {
+  return (
+    <TouchableOpacity
+      onPress={() => router.push("/JobSite/")}
+      style={{
+        alignItems: "center",
+        backgroundColor: "grey",
+        marginVertical: 15,
+        padding: 5,
+        borderRadius: 20,
+      }}
+    >
+      <Text
+        style={{
+          color: "tomato",
+          fontSize: 21,
+          fontWeight: "bold",
+        }}
+      >
+        Apply Now
+      </Text>
+    </TouchableOpacity>
   );
 }
 export default function JobPage() {
-  const params = useSearchParams();
-  const { width } = useWindowDimensions();
-  const router = useRouter();
-  // const { data, isLoading, error } = FetchData({
-  // query: "python developer  ",
-  //job_id: params.id,
-  //});
-  console.log(data);
-  const isLoading = false;
-  const error = null;
-  const data = ["fruits", "mangoes", "oranges", "oranges", "oranges"];
   return (
     <View
       style={{
+        backgroundColor: "#eeeeee",
         flex: 1,
-        backgroundColor: "#212121",
-        padding: 20,
       }}
     >
       <Stack.Screen />
       <TopNav />
-      <View
+      <ScrollView
+        showsVerticalScrollIndicator={false}
         style={{
-          marginTop: 9,
+          backgroundColor: "#212121",
+          flex: 1,
+          padding: 20,
+          borderTopRightRadius: 30,
+          borderTopLeftRadius: 30,
         }}
       >
-        {isLoading ? (
-          <ActivityIndicator size={50} color={"white"} />
-        ) : error ? (
-          alert("there is an error ", error.message)
-        ) : data.lenght === 0 ? (
-          alert("there is no data ")
-        ) : (
-          <ScrollView>
-            <View>
-              <View style={{ alignItems: "center", marginTop: 10 }}>
-                <Image
-                  // source={{ uri: data[0].employer_logo }}
-                  source={require("../assets/profilepicture.jpg")}
-                  sou
-                  style={{
-                    width: 260,
-                    height: 260,
-                    borderRadius: 130,
-                  }}
-                />
-              </View>
-              <View
-                style={{
-                  alignItems: "center",
-                  marginTop: 23,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "#fafafa",
-                    fontSize: 21,
-                    textTransform: "capitalize",
-                    fontWeight: "600",
-                  }}
-                >
-                  Bobmanuel Ibinabo
-                  {data[0].employer_name}
-                </Text>
-              </View>
-            </View>
-            <View
-              style={{
-                alignItems: "center",
-                flexDirection: "row",
-                justifyContent: "center",
-                marginTop: 7,
-              }}
-            >
-              <View>
-                <Text
-                  numberOfLines={1}
-                  style={{
-                    color: "tomato",
-                    fontSize: 20,
-                  }}
-                >
-                  Frontend developer
-                  {data[0].job_title} /
-                </Text>
-              </View>
-              <View>
-                <Text
-                  numberOfLines={11}
-                  style={{
-                    color: "tomato",
-                    marginHorizontal: 10,
-                    fontSize: 20,
-                  }}
-                >
-                  United states
-                  {data[0].job_country}
-                </Text>
-              </View>
-            </View>
-
-            <SafeAreaView
-              style={{
-                width: "100%",
-                height: width,
-                backgroundColor: "#fafafa",
-                borderRadius: 20,
-                marginTop: 20,
-              }}
-            >
-              <View
-                style={{
-                  margin: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "gray",
-                    fontSize: 17,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Discription :{" "}
-                </Text>
-                <Text
-                  numberOfLines={7}
-                  style={{
-                    color: "grey",
-                    fontSize: 17,
-                    fontWeight: "400",
-                  }}
-                >
-                  widawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidas
-                  {data[0].job_description}
-                </Text>
-              </View>
-
-              <View
-                style={{
-                  margin: 10,
-                }}
-              >
-                <Text
-                  style={{
-                    color: "gray",
-                    fontSize: 17,
-                    fontWeight: "bold",
-                  }}
-                >
-                  Qualifications :{" "}
-                </Text>
-                <Text
-                  numberOfLines={7}
-                  style={{
-                    color: "grey",
-                    fontSize: 17,
-                    fontWeight: "400",
-                  }}
-                >
-                  widawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidawidas
-                  {data[0].job_description}
-                </Text>
-              </View>
-            </SafeAreaView>
-          </ScrollView>
-        )}
-      </View>
+        <BottomNav />
+        <LastNav />
+      </ScrollView>
     </View>
   );
 }

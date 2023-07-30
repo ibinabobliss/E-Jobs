@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-const FetchData = (query) => {
+const FetchData = (query, endpoint) => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -47,6 +47,20 @@ const FetchData = (query) => {
   //};
   //search"
 
+  //\const options = {
+  // method: 'GET',
+  //url: 'https://jsearch.p.rapidapi.com/search',
+  //params: {
+  // query: 'Python developer in Texas, USA',
+  //page: '1',
+  // num_pages: '1'
+  //},
+  //headers: {
+  //'X-RapidAPI-Key': 'f2ed22c331msha340fad6e2b9fb6p1ca320jsn80fbea287d81',
+  //'X-RapidAPI-Host': 'jsearch.p.rapidapi.com'
+  // }'
+  //};
+
   const options = {
     method: "GET",
     url: "https://jsearch.p.rapidapi.com/search",
@@ -54,7 +68,7 @@ const FetchData = (query) => {
       ...query,
     },
     headers: {
-      "X-RapidAPI-Key": "0df968852bmshf3fa293a68a9edep1e41c5jsnaa22e9e5bf4d",
+      "X-RapidAPI-Key": "1ecc55d864msh49f7946d267e3eep134f3bjsn5d12ebb609c4",
       "X-RapidAPI-Host": "jsearch.p.rapidapi.com",
     },
   };
